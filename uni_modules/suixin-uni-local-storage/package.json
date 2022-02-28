@@ -1,0 +1,79 @@
+{
+  "id": "suixin-uni-local-storage",
+  "name": "uni-local-storage",
+  "version": "2.0.0",
+  "description": "对uni的本地存储做二次封装增强",
+  "main": "index.js",
+  "author": "liubingwen",
+  "license": "MIT",
+  "keywords": [
+    "uni-ls",
+    "uni",
+    "uni-storage",
+    "uni-local-storage"
+],
+  "repository": "https://github.com/Estelle00/uni-local-storage",
+  "types": "./types/index.d.ts",
+  "displayName": "对uni默认storage二次封装，支持数据变更监听",
+  "dcloudext": {
+    "category": [
+      "JS SDK",
+      "通用 SDK"
+    ],
+    "sale": {
+      "regular": {
+        "price": "0.00"
+      },
+      "sourcecode": {
+        "price": "0.00"
+      }
+    },
+    "contact": {
+      "qq": ""
+    },
+    "declaration": {
+      "ads": "无",
+      "data": "无",
+      "permissions": "无"
+    },
+    "npmurl": "https://www.npmjs.com/package/uni-local-storage"
+  },
+  "uni_modules": {
+    "platforms": {
+      "cloud": {
+        "tcb": "y",
+        "aliyun": "y"
+      },
+      "client": {
+        "App": {
+          "app-vue": "y",
+          "app-nvue": "y"
+        },
+        "H5-mobile": {
+          "Safari": "y",
+          "Android Browser": "y",
+          "微信浏览器(Android)": "y",
+          "QQ浏览器(Android)": "y"
+        },
+        "H5-pc": {
+          "Chrome": "y",
+          "IE": "y",
+          "Edge": "y",
+          "Firefox": "y",
+          "Safari": "y"
+        },
+        "小程序": {
+          "微信": "y",
+          "阿里": "y",
+          "百度": "y",
+          "字节跳动": "y",
+          "QQ": "y"
+        },
+        "快应用": {
+          "华为": "y",
+          "联盟": "y"
+        }
+      }
+    }
+  }
+}
