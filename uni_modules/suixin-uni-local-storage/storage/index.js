@@ -74,11 +74,12 @@ export default class Storage {
 		this.data = this.reactive(getData(options.namespace));
 	}
   install(app) {
+    const { name } = this.options;
     // #ifdef VUE3
-    app.config.globalProperties[`${options.name}`] = this;
+    app.config.globalProperties[`${name}`] = this;
     // #endif
     // #ifdef VUE2
-    app.prototype[`${options.name}`] = this;
+    app.prototype[`${name}`] = this;
     // #endif
   }
 	reactive(data) {
@@ -107,7 +108,7 @@ export default class Storage {
 		const { namespace } = this.options;
 		if (!oldData || !isEqual(oldData?.value, data?.value)) {
 			uni.setStorageSync(namespace + key, data);
-			this.emit(key, data.value || null, oldData.value);
+			this.emit(key, data?.value || null, oldData?.value);
 		}
 	}
 	get(key, ver = "0.0.1") {

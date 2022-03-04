@@ -1,7 +1,7 @@
 {
   "id": "suixin-uni-local-storage",
   "name": "uni-local-storage",
-  "version": "2.0.0",
+  "version": "2.0.3",
   "description": "对uni的本地存储做二次封装增强",
   "main": "index.js",
   "author": "liubingwen",
@@ -72,8 +72,15 @@
         "快应用": {
           "华为": "y",
           "联盟": "y"
+        },
+        "Vue": {
+            "vue2": "y",
+            "vue3": "y"
         }
       }
     }
-  }
+},
+"engines": {
+    "HBuilderX": "^3.3.10"
+}
 }
