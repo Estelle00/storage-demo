@@ -17,7 +17,7 @@ yarn add uni-local-storage
 uni storage API
 
 ```javascript
-import { createStorage } from "uni-local-storage";
+import { createStorage } from "@/uni_modules/suixin-uni-local-storage";
 // 实例化存储
 const config = {
   version: "0.0.1", // 当前存储版本号 推荐动态读取manifest.json文件版本名称（versionName）

@@ -12,8 +12,7 @@
     "uni-storage",
     "uni-local-storage"
 ],
-  "repository": "https://github.com/Estelle00/uni-local-storage",
-  "types": "./types/index.d.ts",
+  "repository": "https://github.com/Estelle00/storage-demo",
   "displayName": "对uni默认storage二次封装，支持数据变更监听",
   "dcloudext": {
     "category": [
@@ -35,8 +34,7 @@
       "ads": "无",
       "data": "无",
       "permissions": "无"
-    },
-    "npmurl": "https://www.npmjs.com/package/uni-local-storage"
+    }
   },
   "uni_modules": {
     "platforms": {
