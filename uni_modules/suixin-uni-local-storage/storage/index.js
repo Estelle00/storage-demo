@@ -71,7 +71,7 @@ export default class Storage {
 		Object.keys(Event).forEach(key => {
 			this[`${key}`] = Event[key];
 		})
-		this.data = this.reactive(getData(options.namespace));
+		this.data = this.reactive(getData(this.options.namespace));
 	}
   install(app) {
     const { name } = this.options;

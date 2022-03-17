@@ -4,7 +4,13 @@ function createStorage(opt = {}) {
     name: "ls",
     ...opt
   };
-  return new Storage(options);
+  const ls = new Storage(options);
+  Object.keys(ls.data).forEach(key => {
+    Object.defineProperty(ls, key, {
+      value: ls.get(key)
+    })
+  })
+  return ls;
 }
 export {
   createStorage
