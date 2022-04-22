@@ -1,6 +1,10 @@
-const events = {};
+import type { Fn } from  "../types";
+interface NewFn extends Fn {
+  fn?: Fn
+}
+const events: Record<string, NewFn[]> = {};
 
-export function on(event, fn) {
+export function on(event: string, fn: () => void) {
   if (Array.isArray(event)) {
     for (let e of event) {
       on(e, fn);
@@ -9,7 +13,7 @@ export function on(event, fn) {
     (events[event] || (events[event] = [])).push(fn);
   }
 }
-export function off(event, fn) {
+export function off(event: string | string[], fn?: Fn) {
   if (Array.isArray(event)) {
     for (const e of event) {
       off(e, fn);
@@ -18,7 +22,7 @@ export function off(event, fn) {
     const cbs = events[event];
     if (!cbs) return;
     if (!fn) {
-      events[event] = null;
+      delete events[event];
       return;
     }
     let cb = null;
@@ -26,23 +30,22 @@ export function off(event, fn) {
     while (i--) {
       cb = cbs[i];
       if(cb === fn || cb.fn === fn) {
-
         events[event].splice(i, 1);
         break;
       }
     }
   }
 }
-export function once(event, fn) {
-  function callback() {
+export function once(event: string, fn: Fn) {
+  function callback(...arg: unknown[]) {
     off(event, callback);
-    fn.apply(null, arguments);
+    fn.apply(null, arg);
   }
   callback.fn = fn;
   on(event, callback);
 }
 
-export function emit(event, ...args) {
+export function emit(event: string, ...args: unknown[]) {
   const cbs = events[event];
   if (cbs) {
     for (const cb of cbs) {

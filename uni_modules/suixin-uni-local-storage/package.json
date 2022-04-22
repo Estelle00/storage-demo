@@ -3,7 +3,49 @@
   "name": "uni-local-storage",
   "version": "2.1.0",
   "description": "对uni的本地存储做二次封装增强",
-  "main": "index.js",
+  "main": "./dist/es/index.js",
+  "module": "./dist/es/index.js",
+  "typings": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/es/index.js",
+      "require": "./dist/lib/index.js"
+    }
+  },
+  "scripts": {
+    "build:types": "rimraf dist/types && tsc -p ./tsconfig.json --emitDeclarationOnly",
+    "build:bundle": "har build:component",
+    "build": "pnpm build:bundle && pnpm build:types",
+    "release": "pnpm build && release-it"
+  },
+  "devDependencies": {
+    "@dcloudio/types": "^2.6.4",
+    "@har/cli": "^1.0.2",
+    "@har/eslint-config": "^1.1.1",
+    "@release-it/conventional-changelog": "^3.3.0",
+    "eslint": "^8.4.1",
+    "prettier": "^2.5.1",
+    "release-it": "^14.11.8",
+    "rimraf": "^3.0.2",
+    "typescript": "4.5.3",
+    "vite": "^2.6.14",
+    "vue": "^3.2.24"
+  },
+  "release-it": {
+    "git": {
+      "tag": true,
+      "commitMessage": "release: @har/use ${version}"
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular",
+        "infile": "CHANGELOG.md"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "author": "liubingwen",
   "license": "MIT",
   "keywords": [
@@ -11,7 +53,7 @@
     "uni",
     "uni-storage",
     "uni-local-storage"
-],
+  ],
   "repository": "https://github.com/Estelle00/storage-demo",
   "displayName": "对uni默认storage二次封装，支持数据变更监听",
   "dcloudext": {
@@ -73,13 +115,13 @@
           "联盟": "y"
         },
         "Vue": {
-            "vue2": "y",
-            "vue3": "y"
+          "vue2": "y",
+          "vue3": "y"
         }
       }
     }
-},
-"engines": {
+  },
+  "engines": {
     "HBuilderX": "^3.3.10"
-}
+  }
 }
