@@ -1,10 +1,10 @@
 # Mac
 .DS_Store
 **/.DS_Store
-
+.idea
 # vim/vi
 *.swp
-
+dist
 # JavaScript
 node_modules/
 .node_modules/

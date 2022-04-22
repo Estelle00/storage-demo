@@ -1,9 +1,9 @@
+> 数据均为双向绑定与vue视图一直无需手动刷新 for vue3
 ### install
-
 #### NPM
 
 ```shell script
-npm install uni-local-storage --save
+npm uni-local-storage --save
 ```
 
 #### YARN
@@ -17,78 +17,52 @@ yarn add uni-local-storage
 uni storage API
 
 ```javascript
-import { createStorage } from "@/uni_modules/suixin-uni-local-storage";
+import { createStorage } from "@/uni_modules/suixin-uni-local-storage"; // or import { createStorage } from "uni-local-storage";
+
 // 实例化存储
 const config = {
-  version: "0.0.1", // 当前存储版本号 推荐动态读取manifest.json文件版本名称（versionName）
   namespace: "__ls__", // 当前存储key前缀 推荐动态读取manifest.json文件中AppID（appid）
   name: "ls" // 可选 自定义全局变量名称
 }
 // name 默认 ls；
 const storage = createStorage(config);
-// #ifdef VUE2
-Vue.use(storage);
-// #endif
 // #ifdef VUE3
 const app = createSSRApp(App);
 app.use(storage);
 // #endif
-
-new Vue({
-    el: '#app',
-    created() {
-        storage.set('foo', 'boo');
-        this.$ls.set('foo', 'boo');
-        //Set expire for item
-        storage.set('foo', 'boo', 60 * 60); //expiry 1 hour
-        storage.get('foo');
-        storage.remove('foo');
-    },
-})
 ```
 #### Context
 ```javascript
-this.$ls // or storage
+  import { useStore } from "uni-local-storage";
+  const store = useStore("foo");
+  store.setEffectiveTime(10) // 设置数据有效时间 s
+  console.log(store.state) // 数据内容；
+  store.state = "any" // 设置数据内容
 ```
 
 ### API
 ```javascript
-this.$ls.get(name, version);
+const store = useStore(name)
 ```
-返回key为name的本地存储数据。
-- `version` 默认为0.0.1，返回大于当前版本数据
-> 小于当前版本数据会自动删除
+返回key为`name`的本地存储数据`store`。
+```javascript
+store.setEffectiveTime(time);
+```
+设置当前`store`的有效时间（单位秒）。
+- 不设置表示永久生效，每次更新数据会重新倒计时
 
 ```javascript
-this.$ls.set(name, value, expire);
+store.removeEffectiveTime();
 ```
-存储`name`下的`value`。
-- `expire` 默认null，数据有效秒
+移除`store`的有效时间，永久有效
 
 ```javascript
-this.$ls.getAll(version)
+store.state = undefined;
 ```
-返回所以存储数据
-- `version` 默认为0.0.1，返回大于当前版本数据
-> 小于当前版本数据会自动删除
+删除当前`store`本地存储数据
 
 ```javascript
-this.$ls.remove(name);
+store.state = "any";
 ```
-删除`name`数据，成功返回`true`；
-
-```javascript
-this.$ls.on(name, callback);
-```
-添加`name`发生变化时的监听
-
-```javascript
-this.$ls.once(name, callback);
-```
-添加`name`发生变化时的一次监听
-
-```javascript
-this.$ls.off(name, callback);
-```
-关闭`name`发生变化的回调
-> `callback` 不填写清空当前`name`的所有监听事件
+设置当前`store`数据
+> 仅支持uni支持的数据类型
