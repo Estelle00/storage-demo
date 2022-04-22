@@ -53,9 +53,9 @@
     "uni",
     "uni-storage",
     "uni-local-storage"
-  ],
+],
   "repository": "https://github.com/Estelle00/storage-demo",
-  "displayName": "对uni默认storage二次封装，支持数据变更监听",
+  "displayName": "对uni默认storage二次封装，支持数据双向绑定",
   "dcloudext": {
     "category": [
       "JS SDK",
@@ -77,7 +77,7 @@
       "data": "无",
       "permissions": "无"
     },
-    "npmurl": ""
+    "npmurl": "https://www.npmjs.com/package/uni-local-storage"
   },
   "uni_modules": {
     "platforms": {
@@ -115,7 +115,7 @@
           "联盟": "y"
         },
         "Vue": {
-          "vue2": "y",
+          "vue2": "n",
           "vue3": "y"
         }
       }
