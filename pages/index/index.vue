@@ -9,15 +9,7 @@
 		<view class="button-sp-area">
 			<button type="primary" plain="true" @click="changeData">变更数据</button>
 		</view>
-		<view class="button-sp-area">
-			<button type="primary" plain="true" @click="addListener">监听数据</button>
-		</view>
-		<view class="button-sp-area">
-			<button type="primary" plain="true" @click="addOnceListener">监听一次数据变化</button>
-		</view>
-		<view class="button-sp-area">
-			<button type="primary" plain="true" @click="removeListener">取消监听</button>
-		</view>
+    <view>{{ store.state }}</view>
     <view>{{ resultStr }}</view>
 	</view>
 </template>
@@ -26,7 +18,7 @@
   import { ref } from "vue";
   const store = useStore("foo");
   const resultStr = ref("");
-  console.log(store);
+  store.setEffectiveTime(10);
   const defaultData = {
     a: 1,
     b: 2
@@ -36,12 +28,17 @@
   }
 
   function setData(data = defaultData) {
-    store.update(data, 10);
+    store.state = data;
     showTips("设置数据：", data);
   }
   function getData() {
     const d = store.state;
     showTips("获取数据：", d);
+  }
+   function changeData() {
+     store.state = Math.random()
+    // const d = { ...defaultData, b: Math.random() };
+    // setData(d);
   }
 </script>
 // export default {

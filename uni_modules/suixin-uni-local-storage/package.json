@@ -1,7 +1,7 @@
 {
   "id": "suixin-uni-local-storage",
   "name": "uni-local-storage",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "对uni的本地存储做二次封装增强",
   "main": "./dist/es/index.js",
   "module": "./dist/es/index.js",

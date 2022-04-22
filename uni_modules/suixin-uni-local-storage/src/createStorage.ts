@@ -2,7 +2,6 @@ import { markRaw } from "vue";
 import type { App } from "vue";
 import type { Storage, StorageOptions, StoragePlugin } from "./types";
 import {setActive, storageSymbol} from "./utils";
-import initStatePlugin from "./plugins/initStatePlugin";
 export function createStorage(options: Partial<StorageOptions> = {}) {
   const opt: StorageOptions = Object.assign({},{
     namespace: "__ls__",
@@ -38,6 +37,5 @@ export function createStorage(options: Partial<StorageOptions> = {}) {
     $options: opt,
     $s: new Map()
   });
-  storage.use(initStatePlugin);
   return storage;
 }

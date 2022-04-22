@@ -1,63 +1,85 @@
 import { getActive } from "./utils";
-import {effectScope, reactive, watchEffect} from "vue";
-import type { SaveData, Storage, Store } from "./types";
-import {ReactiveStore} from "./types";
+import { effectScope, reactive, watch, watchEffect } from "vue";
+import type { Storage, Store } from "./types";
+import { ReactiveStore } from "./types";
 function createSetupStore(id: string, storage: Storage): Store {
   const scope = effectScope();
+  const key = storage.$options.namespace + id;
+  const {
+    value,
+    time,
+    updateTime = Date.now(),
+  } = uni.getStorageSync(key) || {};
+  function setEffectiveTime(time: number) {
+    store.time = time;
+    setUpdateTimeToNow();
+  }
+  function removeEffectiveTime() {
+    store.time = undefined;
+  }
+  function setUpdateTimeToNow() {
+    store.updateTime = Date.now();
+  }
   const store: ReactiveStore = reactive({
-    state: undefined,
-    $time: undefined,
+    state: value,
+    time,
+    updateTime,
     _s: storage,
     $id: id,
-    update,
-    remove,
-  })
+    setEffectiveTime,
+    removeEffectiveTime,
+  });
   storage.$s.set(id, store);
-  function update(val: any, expire?: number) {
-    store.$time = expire ? Date.now() + expire * 1000 : undefined;
-    store.state = val;
+
+  watch(
+    () => store.state,
+    (val) => {
+      if (val !== undefined) {
+        uni.setStorageSync(key, {
+          value: val,
+          time: store.time,
+          updateTime: Date.now(),
+        });
+      } else {
+        uni.removeStorageSync(key);
+      }
+      setUpdateTimeToNow();
+    }
+  );
+  let timer: number | undefined;
+  function clearTime() {
+    if (timer) clearTimeout(timer);
+    timer = undefined;
   }
   function remove() {
+    clearTime();
     store.state = undefined;
-    store.$time = undefined;
   }
-  storage._p.forEach(plugin => {
-    scope.run(() => {
-      const { value, time } = plugin({
-        app: storage._a,
-        id,
-        storage
-      }) || {};
-      if (value !== undefined) {
-        store.state = value;
-      }
-      if (time !== undefined) {
-        store.$time = time;
-      }
-    })
-  });
-
   // 添加有效时间处理
-  let timer: number;
   watchEffect(() => {
-    if (store.$time) {
-      const effectiveTime = store.$time - Date.now();
+    if (store.time) {
+      const effectiveTime = store.updateTime + store.time * 1000 - Date.now();
       if (effectiveTime > -1) {
-        clearTimeout(timer);
+        clearTime();
         timer = setTimeout(remove, effectiveTime);
       } else {
         remove();
       }
     }
-  })
+  });
+  storage._p.forEach((plugin) => {
+    scope.run(() => plugin({ app: storage._a, id, storage }));
+  });
   return store;
 }
-export function useStore(name: string) {
-  // 1.判断storge是否有 get
-  //2. 如果没有
-  // 1) 初始化（挂载修改。删除、插件）
-  //3. 返回store
 
+/**
+ *
+ * @param name 存储数据key
+ * @return Store
+ *
+ */
+export function useStore(name: string) {
   const storage = getActive();
   let store = storage.$s.get(name);
   if (!store) {
