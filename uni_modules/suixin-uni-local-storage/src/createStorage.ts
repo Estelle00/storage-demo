@@ -1,17 +1,21 @@
 import { markRaw } from "vue";
 import type { App } from "vue";
 import type { Storage, StorageOptions, StoragePlugin } from "./types";
-import {setActive, storageSymbol} from "./utils";
+import { setActive, storageSymbol } from "./utils";
 export function createStorage(options: Partial<StorageOptions> = {}) {
-  const opt: StorageOptions = Object.assign({},{
-    namespace: "__ls__",
-    name: "ls",
-  }, options);
+  const opt: StorageOptions = Object.assign(
+    {},
+    {
+      namespace: "__ls__",
+      name: "ls",
+    },
+    options
+  );
   // const scope = effectScope(true);
   // const state = scope.run<StateReactive>(() =>
   //   reactive<StateData>({})
   // )!
-  let _p: Storage["_p"] = [];
+  const _p: Storage["_p"] = [];
   let toBeInstalled: StoragePlugin[] = [];
   const storage: Storage = markRaw({
     install(app: App) {
@@ -19,7 +23,7 @@ export function createStorage(options: Partial<StorageOptions> = {}) {
       storage._a = app;
       app.provide(storageSymbol, storage);
       app.config.globalProperties[opt.name] = storage;
-      toBeInstalled.forEach(plugin => _p.push(plugin));
+      toBeInstalled.forEach((plugin) => _p.push(plugin));
       toBeInstalled = [];
     },
     use(plugin) {
@@ -35,7 +39,7 @@ export function createStorage(options: Partial<StorageOptions> = {}) {
     // @ts-ignore
     _a: null,
     $options: opt,
-    $s: new Map()
+    $s: new Map(),
   });
   return storage;
 }

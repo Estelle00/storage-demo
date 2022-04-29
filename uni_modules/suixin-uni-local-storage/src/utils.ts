@@ -1,5 +1,5 @@
 import type { Storage } from "./types";
-import {getCurrentInstance, inject} from "vue";
+import { getCurrentInstance, inject } from "vue";
 
 export const storageSymbol = Symbol("storage");
 let activeStorage: Storage | null = null;
